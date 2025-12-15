@@ -1,0 +1,20 @@
+#   api-deployment içindeki Pod'lara ulaşmak için
+#   kullanılan ClusterIP Service nesnesi.
+#
+#   Bu Service:
+#     - 80 portundan yayın yapar
+#     - Pod içindeki containerPort 80'e yönlendirir
+#     - app=api label'lı Pod'ları hedef alır
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service              # Service adı
+spec:
+  type: ClusterIP                # Internal service
+  selector:
+    app: api                     # API podlarını seçer
+  ports:
+    - port: 80                   # Servisin açtığı port
+      targetPort: 80             # Pod içindeki containerPort (echo-server)

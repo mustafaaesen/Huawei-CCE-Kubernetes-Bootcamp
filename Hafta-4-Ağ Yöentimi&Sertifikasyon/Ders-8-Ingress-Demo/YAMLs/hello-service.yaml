@@ -1,0 +1,20 @@
+#   hello-deployment içindeki Pod'lara erişimi
+#   sağlamak için kullanılan Service nesnesi.
+#
+#   Bu Service:
+#     - ClusterIP türünde (default)
+#     - 80 portundan gelen trafiği Pod içindeki
+#       containerPort 5678'e yönlendirecek.
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service           # Service adı
+spec:
+  type: ClusterIP               # Varsayılan Service türü (internal)
+  selector:
+    app: hello                  # hello label'lı Pod'ları hedef alır
+  ports:
+    - port: 80                  # Cluster içi erişim portu
+      targetPort: 5678          # Pod içindeki http-echo portu

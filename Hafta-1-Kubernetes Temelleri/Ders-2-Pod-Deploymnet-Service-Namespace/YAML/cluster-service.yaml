@@ -1,0 +1,26 @@
+apiVersion: v1 # service için kullanılan API sürümü
+
+kind: Service # Oluşturulan nesnenin türü (Service: podlara erişim sağlamak için kullanılır)
+
+metadata: # Service'in bilgileri
+  name: nginx-service # Service adı, dashboard ve kubectl komutlarında bu şekilde görünür
+
+spec: # Service'in çalışma kuralları
+  type: NodePort # Node'un dış dünyaya açılan portu üzerinden erişim sağlar
+
+  selector: # Service'in hedefleyeceği podların etiketi
+    app: nginx # Trafik gönderilecek podların etiketi app:nginx
+
+  ports: # Service için port tanımları
+    - port: 80        # Service'in içte dinlediği port
+      targetPort: 80  # Pod içindeki container'ın dinlediği port
+      nodePort: 30080 # Node'dan dış dünyaya açılan port (30000–32767)
+
+
+
+#KISACA YAML GÖREVİ
+
+#--- app:nginx etiketi olan podları hedef alır
+#--- Service'i dış dünyaya 30080 port üzerinden açar
+#--- İçte port 80'e , container'da da port 80'e yönlendirme yapar
+#--- Deployment'taki pdolara tek bir IP ve port üzerinden ulaşmayı sağlar

@@ -1,0 +1,33 @@
+apiVersion: apps/v1 #StatefulSet gibi durumu koruyan uygulamalar için güncel API sürümü
+
+kind: StatefulSet  #YAML nesne türü (StatefulSet---> sabit kimlik pod'lar)
+
+metadata: #StatefulSet bilgileri
+  name: web-stateful #Adı dashboard ve kubectl komutları ile görünüm ve erişimde bu şekilde görünecek
+
+spec: #Çalışma kuralları
+
+  serviceName: "web" #Headless Service' bağlanmak için gerekli olan isim (pod DNS'leri bu isme göre oluşacak)
+  replicas: 2 # 2 adet statefulset pod oluştur
+
+  selector: #Podlar için etiket filtresi
+    matchLabels: #etikete göre eşleşme
+      app: web # app:web olan podlar bu StatefulSet'e ait 
+
+  template: #Pod şablonu
+    metadata: #Pod etiket bilgileri
+      labels:
+        app: web # Poda selector ile eşleşebilmesi için app:web etiketi ata
+      
+    spec: #Pod'un içeriğinin tanımlandığı yer
+      containers: #Pod içindeki container listesi
+        - name: web #Container adı
+          image: nginx #imajın çekileceği yer (Steteless ancak deneme için uygundur)
+          ports: 
+            - containerPort: 80 # Pod'un içindeki uygulamanın dinlediği port 
+          
+#KISACA YAML GÖREVİ
+#--- 2 adet nginx tabanlı podu sabit kimliklerle (web-0, web-1 ) oluşturur 
+#--- Pod isimleri ve sıraları değişmez, identity korunur.
+#--- Genelde veritabanları için kullanılır örenkte basitlik için nginx kullanıldı
+#--- Headless Service ile DNS üzerinden birebir pod erişimi sağlar

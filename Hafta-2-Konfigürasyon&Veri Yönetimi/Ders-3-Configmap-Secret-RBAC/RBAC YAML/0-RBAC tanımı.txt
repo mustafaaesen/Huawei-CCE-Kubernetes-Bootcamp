@@ -1,0 +1,12 @@
+Kişilerin veya uygulamların hangi kaynaklara hangi işlemleri yapabileceklerinin belirlendiği
+yetkilendirme işlemidir
+
+ServieAccount       --->  Uygulma/Pod kimliği                    --->  Bu uygulama kim?
+
+Role                --->  Namecpace içerisinde izin tanımı       --->  Ne yapabilir?
+
+ClusterRole         ---> Tüm cluster için izin tanımları         --->  Global anlamda ne yapabilir?
+
+RoleBinding         ---> Role --> ServieAccount bağlantısı       --->  Bu yetki kime veriliyor?
+
+ClusterRoleBinding  ---> ClusterRole--> ServieAccount bağlantısı --->  Bu global yetki kime veriliyor?

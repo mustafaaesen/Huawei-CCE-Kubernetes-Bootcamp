@@ -1,0 +1,56 @@
+#   Tüm uygulamaları tek bir domain altında toplar.
+#
+#   Yönlendirmeler:
+#     /       --> web-service (nginx)
+#     /api    --> api-service (selenium echo server)
+#     /hello  --> hello-service (http-echo)
+#
+#   Bu Ingress:
+#     - nginx ingress controller kullanır
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mustafaesen.com.tr        #kendi domainim
+      http:
+        paths:
+        
+          # /  -->  web-service
+         
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: web-service
+                port:
+                  number: 80
+
+        
+          # /api  --> api-service
+        
+          - path: /api
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: api-service
+                port:
+                  number: 80
+
+        
+          # /hello  --> hello-service
+         
+          - path: /hello
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hello-service
+                port:
+                  number: 80

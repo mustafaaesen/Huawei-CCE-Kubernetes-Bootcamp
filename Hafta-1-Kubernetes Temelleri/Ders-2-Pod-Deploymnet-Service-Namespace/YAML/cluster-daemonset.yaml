@@ -1,0 +1,40 @@
+apiVersion: apps/v1 #deamon set için deployment 
+
+kind: DaemonSet #YAML dosyasının oluştuğu nesne türü her node da bir pod çalıştıran yapı
+                #kubernetes içinde kaynağa erişirken kullanacağı adı tanımlama
+
+metadata: #tanımlanan DaemonSet'in özellikleri beilrltilmesi
+  
+  name: nginx-daemon #ismi nginx-daemon bu isimle erişir kubernetes
+                     #kaynağı komutlarda dahsboardda ve loglarda ayırt edebilmek için
+
+spec: #nesnenin çalışma kurallarının belirlendiği yer 
+  selector: #daomeonsetin hangi podları yöneteceğinin beilrtir başka podlaral karışmaması adına
+            #Kubernetes bu daemonsete ait podların bilgisini buradan alır
+    matchLabels: #etikete göre eşleştirme yapan filtre 
+                 #podlarla daemonseti eşleştirir
+      app: nginx  
+      #son açıklama üzerinde app nginx yazan podları al eşleştir ve bu podları kubernetes  bilsin ve bu daemonset yönetsin
+
+  template:  #daemonsetin oluşturcağı podların şablonu belirtir nasıl görüneceği tarifi
+    metadata: #poda eklenecek etiketler yukarıdaki matchlabels ile eşleşmesi için
+      labels:
+        app: nginx  #Poda app:nginx eitketi koy böylelikle daemonset bunu kendi podu olarak tanıyabilir
+    
+    spec: #podun içindeki containerların tanımlandığı bölüm 
+          #podun içinde ne çalışacağı burada belirtilir
+      
+      containers: #pod içinde çalışacak containerların listesi 
+        - name: nginx  #adı
+
+          image: nginx   #containerın hangi docker imajından kurulacağını beilirtir
+
+          #NGINX UYGULAMASI İNDİR ve ÇALIŞTIR
+
+
+#KISACA  YAML GÖREVİ
+
+#---Cluster içerisinde her bir node'da bir tane nginx podu çalıştır
+#---Pod'un etiketi "app: nginx" olsun.
+#---Bu posların şablonu  spec'te belirtilmiş containerdan oluşuyor
+

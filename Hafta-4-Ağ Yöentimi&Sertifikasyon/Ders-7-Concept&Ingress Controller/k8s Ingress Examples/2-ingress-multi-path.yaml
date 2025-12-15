@@ -1,0 +1,52 @@
+#MULTI-PATH INGRESS
+
+#Aynı domain altında /api, /web, /admin gibi farklı pathlere farklı service'lere 
+#yönlendiren ingress türüdür.
+
+apiVersion: networking.k8s.io/v1 #Ingress API versiyonu
+kind: Ingress # kaynak tipi
+
+metadata: 
+  name: multipath-ingress # Ingress adı
+  namespace: demo #çalışacağı namespace
+
+spec:
+  ingressClassName: nginx #Kullanılan Ingress Controller
+  rules:
+    - host: huaweikubernetes.com #çalışacağı domain
+      http: #HTTP kuralları
+        paths:
+          - path: /api # api ile başlayan tüm istekler
+            pathType: Prefix #Prefix eşleşmesi
+            backend: 
+              service:
+                name: api-service #yönlendirileceği service
+                port:
+                  number: 80 #servisin dinleyeceği port
+          
+          - path: /web #/web ile başlayan tüm istekler
+            pathType: Prefix #Prefix eşleşmesi
+            backend: 
+              service:
+                name: web-frontend #yönlendireceği service
+                port:
+                  number: 80 #service'in dinleyeceği port
+
+          - path: /admin #/admin ile başlayan tüm istekler
+            pathType: Prefix # Prefix eşleşmesi
+            backend: 
+              service:
+                name: admin-panel #yönlendireceği service
+                port:
+                  number: 80 #Service'in dinleyeceği port
+
+
+
+ #Bu Ingress Kısaca
+
+ #--->Aynı domain(huaweikubernetes.com) altında
+    # /api ile gelen istekleri 'api-service' e,
+    # /web ile gelen istekleri 'web-frontend' e,
+    # /admin ile gelen istekleri 'admin-panel' servisine yönlendirir.
+
+#---> Tek ingress ile path bazlı çoklu service yönlendirmesi yapar.

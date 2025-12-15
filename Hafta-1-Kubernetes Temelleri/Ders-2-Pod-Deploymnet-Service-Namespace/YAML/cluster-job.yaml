@@ -1,0 +1,32 @@
+apiVersion: batch/v1 #kubernetesin tek toplu işlemler için kullandığı job ve cronjob gibi
+                     #tek seferlik işlemlerin yürütüldüğü API.
+
+kind: Job  #nesnenin türünün belirtildiği yer job iş başlar ve tamamlandığında durur
+
+metadata: #özellikleri
+
+  name: nginx-job #job ın adı 
+
+spec: #Job'ın çalışma kurallarının tanımlandığı yer .Job nasıl davranacak?
+
+  template: #jobın oluşturacağı pod ve podun şablonunu belirtir
+
+    spec: #podun içerisinde çlaışacak containerı tanımlar
+
+      restartPolicy: OnFailure #yeniden çalıştırma politikası sadece hata olursa kubernetes devreye
+                               #devreye girip yeniden çalıştıracak
+      containers: #container listsi pod içerisinde çalışacak containerlar
+
+        - name: task #container adı
+
+          image: nginx #çalıştırılacak docker imajı
+
+          command: ["ls", "-l", "/usr/share/nginx/html"] #container başlatılırken çalıştırılacak komut
+          #NGINX içerisindeki HTML klasörünü listele ve görevi bitir
+
+#KISACA YAML GÖREVİ
+
+#---YAML bir job tabımlar
+#---Job nginx imajını kullanarak "/usr/share/nginx/html" içerisindeki klasörü listeler
+#---Görev tamamlanınca pod kapanır
+#---Eğer hata oluşursa Kubernetes job'ı yeniden dener

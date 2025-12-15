@@ -1,0 +1,46 @@
+#MULTI-HOST INGRESS
+
+#Bir ingress objesi içerisinde birden fazla domain/subdomain için rule tanımlak
+#için kullanılır
+
+#örneğin api.huaweikubernetes.com --> api-service / app.huaweikubernetes.com --> app-frontend
+
+apiVersion: networking.k8s.io/v1 #Ingress API versiyonu
+kind: Ingress #Kaynak tipi
+
+metadata:
+  name: multihost-ingress #ingress adı
+  namespace: demo #çalışacağı namespace
+
+spec:
+  ingressClassName: nginx #Ingress Controller 
+  rules:
+    - host: api.huaweikubernetes.com # birinci domain(subdomain)
+      http: #HTTP kuralları
+        paths:
+          - path: / #Tüm path'ler
+            pathType: Prefix #Prefix eşleşmesi
+            backend:
+              service:
+                name: api-service #yönlendirileceği service
+                port:
+                  number: 80 # service'in dinleyeceği port
+        
+    - host: app.huaweikubernetes.com #ikinci domain(subdomain)
+      http: #HTTP kuralları
+        paths:
+          - path: / #Tüm path'ler
+            pathType: Prefix #Prefix eşleşmesi
+            backend:
+              service:
+                name: app-frontend #yönlendirileceği service
+                port:
+                  number: 80 #service'in dinleyeceği port
+
+
+#Bu ingress
+
+#---> Farklı hostlara görev yönlendirme yapar
+      # api.huaweikubernetes.com-->api-service
+      # app.huaweikubernetes.com-->app-frontend
+#Birden fazla domain/subdomain tek bir ingress içerisinde yönetilebilir

@@ -1,0 +1,52 @@
+#SECURITY - RATE LIMIT INGRESS
+
+#IP bazlı koruma , istek ve hız sınırları, timeout ayarları gibi uygulamanın
+#daha daha güvenli ve kontrol edilebilir şekilde sağlamasını sağlayan ingress türüdür.
+
+
+apiVersion: networking.k8s.io/v1 # Ingress API verisyonu
+kind: Ingress #kaynak tipi
+
+metadata:
+  name: secure-ingress #ingress adı
+  namespace: demo #çalışacağı namesapce
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/24,192.168.1.10/32"
+    #girebilecek ip'lerin tanımlanması
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    #saniyede atılabilecek istek sınırı tanımlanması
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "2"
+    #Trafik patlamasına karşın 2 kat sınır
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60" 
+    #Timeout sınırı
+    nginx.ingress.kubernetes.io/proxy-body-size: "2m"
+    #max body boyutu sınırı
+
+
+spec:
+  ingressClassName: nginx #Ingress controller
+  rules:
+    - host: protected.huaweikubernetes.com # çalışacağı domain
+      http: #HTTP kuralları
+        paths:
+          - path: / #Tüm path'ler
+            pathType: Prefix #Prefix eşleşmesi
+            backend:
+              service:
+                name: protected-service #yönlendireceği service
+                port:
+                  number: 80 #service'in dinleyeceği port
+
+
+#Bu ingress
+
+#--->protected.huaweikubernetes.com domain'inden gelen isteklerde 
+    
+    #-->Erişebilecek ip aralıklarını whitelist ile tanıtır
+    #-->limit-rps ve limit-burst-multiplier ile istek ve hız sınırını
+    #-->proxy-read-timeout ve proxy-body-size ile timeout ve body sınırını
+    #Atamalarını yaparak
+
+#Trafiği protected-service'e yönlendirir
+
+#---> Bu sayede uygulamaya çalışabilmesi için güvenli ortam ve şartlar sağlanmış olur

@@ -1,0 +1,37 @@
+apiVersion: batch/v1 # Kullanılan API sürümü cronjob ve job  için
+kind: CronJob # YAML nesne türü (CronJob---> zamanlanmış görevler için)
+
+metadata: #Cronjob özellikleri
+  name: hello-cronjob #adı dashboard ve kubectl komutları görünüm ve erişimde görünecek formu
+
+spec: #Çalışma kuralları
+  schedule: "*/1 * * * *" #cronf ifadesi her 1 dakikada bir çalıştır
+            #Linux Cron  formatı---> dakika/satt/gün/ay/hafta günü
+  
+  jobTemplate: #Cronjob'ın oluşturacağı job'ın şablonu
+              # CronJob ---> Job oluşturur---> Job da Pod oluşturur
+    
+    spec: #Job'ın çalışma kuralları
+      template: #Job'un Job'ın oluşturacağı Pod'un şablonu
+        spec: #Pod'un içerik tanımı
+          restartPolicy: OnFailure # Pod hata alırsa yeniden başlat(yeniden başlatma politikası ne zaman)
+      
+          containers: #Pod'un container listesi
+
+            - name: hello #container adı
+              image: busybox #çekilecek imaj Linux tabanlı eğitim için hızlı ve ideal
+
+              args: #containerın başlangıçta çalıştıracağı komut
+
+                - /bin/sh #busybox içerisinde shell(komut çalıştırma arayüzü)
+                - -c #Command mode shell'e string komut verilecek
+                - "echo 'Hello from CronJob!' "
+                #her dakika başı çalışacak komut ekrana kısa bir mesaj yazdırır
+
+#KISACA YAML GÖREVİ
+
+#--- CronJob tanımlar
+#--- Her 1 dakikada bir Job oluşturur
+#--- Job busybox imajı ile bir Pod başlatır ve ekrana "Hello from CronJob" mesajı yazar
+#--- Pod işini bitirince kapanır
+#--- Eğer hata olursa restartPolicy: OnFailure politikası ile tekrar başlatılır

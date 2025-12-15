@@ -1,0 +1,22 @@
+#Role ile ServiceAccount ilişkisinin tanımıdır
+
+#Oluşturulan Role'deki izinleri hangi ServiceAccount'ın kullancağının tnaımlandığı yerdir
+
+#Role'lerin bağlanması zorunludur.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+
+metadata:
+  name: read-pods-binding
+  namespace: default
+
+subjects:
+  - kind: ServiceAccount   #yetkiyi alacak kimlik
+    name: app-sa
+    namespace: default
+
+roleRef:
+  kind: Role  #bağlanan role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io

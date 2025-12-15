@@ -1,0 +1,31 @@
+#   Web uygulamasını (nginx) Kubernetes üzerinde
+#   2 replica olarak çalıştıran Deployment objesi.
+#
+#   Bu dosya:
+#     - Pod'ların template'ini tanımlar
+#     - Hangi imagelerin kullanılacağını belirler
+#     - Replika sayısını ayarlar
+#     - Etiketler üzerinden Service ile eşleşmeye izin verir
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment          # Deployment adı
+  labels:
+    app: web                    # App etiketi (Service ile eşleşecek)
+spec:
+  replicas: 2                   # Çalışacak pod sayısı
+  selector:
+    matchLabels:
+      app: web                  # Pod'ları bu label üzerinden seçer
+  template:
+    metadata:
+      labels:
+        app: web                # Pod'lara bu etiket eklenir
+    spec:
+      containers:
+        - name: web             # Container ismi
+          image: nginx:latest   # Kullanılacak Docker imajı
+          ports:
+            - containerPort: 80 # Nginx default portu

@@ -1,0 +1,37 @@
+#REWRITE PATHM MANIPULATION
+
+# Kullanıcnın çağırdığı path'i backend'e farklı şeklide yönlendirmek için kullanılan
+#ingress türüdür.
+#örneğin kullanıcı /api/users isteği backend'e /users olarak iletilmek istensin
+
+apiVersion: networking.k8s.io/v1 #Ingress API verisyonu
+kind: Ingress #kaynak tipi
+
+metadata:
+  name: rewrite-ingress #ingress adı
+  namespace: demo #çalışacağı namespace
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2 #/api kısmını kesip isteği sadeleştiren kısım
+
+spec:
+  ingressClassName: nginx #ingress controller
+  rules: 
+    - host: huaweikubernetes.com  #üzerinde çalışacağı domain tanıtımı
+      http: #http kuralları
+        paths: 
+          - path: /api(/|$)(.*) #/api ile başlayan tüm path'lerde çalışacak
+            pathType: Prefix #Prefix eşleşmesi
+            backend:  
+              service:
+                name: api-service #rwrite edilmiş path'lerin yöneleceği service
+                port:
+                  number: 80 #service'in dinleyeceği port
+
+#Bu ingress
+
+#---> Kullanıcının huaweikubernetes.com/api... şeklide atacağı tüm istekler için backend'e
+      # yönlendirirken  /api kısmı kesilerek istek api-service'e daha sade olarak
+      # kullanıcnın erişmek istediği (user) path ile yönlendirilir
+
+#---> Bunu nginx.ingress.kubernetes.io/rewrite-target annotation'i ve /api(/|$)(.*) patterni ile
+      #ile yapar

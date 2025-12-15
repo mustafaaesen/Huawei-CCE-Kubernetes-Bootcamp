@@ -1,0 +1,32 @@
+#   HashiCorp'un http-echo imajını kullanarak 
+#   basit bir text yanıtı dönen HTTP servisi
+#   çalıştıran Deployment.
+#
+#   Bu Deployment:
+#     - 1 replica çalıştırır
+#     - DockerHub'dan image pull yapacağı için
+#       SNAT aktif olması gerekir
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deployment          # Deployment adı
+spec:
+  replicas: 1                     # Tek replica yeterli
+  selector:
+    matchLabels:
+      app: hello                  # Pod'ları seçmek için label
+  template:
+    metadata:
+      labels:
+        app: hello                # Pod'un label'ı
+    spec:
+      containers:
+        - name: hello             # Container adı
+          image: hashicorp/http-echo   # DockerHub imajı (SNAT ile çekilecek)
+          args:
+            - "-text=Mustafa ESEN - Huawei Cloud CCE Kubernetes Bootcamp"
+              #  imaja verilecek text parametresi
+          ports:
+            - containerPort: 5678     # http uygulamasının dinlediği port

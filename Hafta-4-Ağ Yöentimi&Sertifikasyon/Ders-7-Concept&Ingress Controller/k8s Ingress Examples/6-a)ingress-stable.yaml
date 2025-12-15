@@ -1,0 +1,40 @@
+#CANARY INGRESS (Trafiği %ye göre yönlendirme)
+
+# Bir servise gelen trafiği yeni versiyon bir sevise göndermek için kullanılır
+#Kademeli geçişlerde yararlanılır
+#Örneğin elimizde mevcut durumda çalışan stable ingress olsun ve biz bunu canary ingress
+#ile trafiğinin %20'sini yeni versiyona yönlendirmek isteyelim
+
+
+#A) STABLE INGRESS
+
+apiVersion: networking.k8s.io/v1 #Ingress API versiyon
+kind: Ingress # kaynak tipi
+
+metadata:
+  name: web-stable-ingress #eski sürüm ingress adı
+  namespace: demo #çalıştığı namespace
+
+spec: 
+  ingressClassName: nginx #Ingress Controller
+  rules:
+    - host: canary.huaweikubernetes.com #mevcut domain
+      http: #http kuralları
+        paths:
+          - path: / #tüm path'ler
+            pathType: Prefix #Prefix eşleşmesi
+            backend:  
+              service:
+                name: web-service #yönlendirdiği service
+                port:
+                  number: 80 #service'in dinlediği port
+
+
+#Bu ingress
+
+#---> web-stable-ingress canary.huaweikubernetes.com domain'inden gelen trafiğin tamamını 
+    # web-service adlı eski stabil sürüme yönlendirir ve ana ingress'tir.
+
+# Canary ingress'i için 6.dosyanın b maddesine bakılabilir
+
+

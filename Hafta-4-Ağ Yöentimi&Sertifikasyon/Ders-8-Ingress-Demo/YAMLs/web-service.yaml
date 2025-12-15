@@ -1,0 +1,21 @@
+#   web-deployment içindeki Pod'ları bir Service
+#   üzerinden erişilebilir hâle getirir.
+#
+#   Bu Service:
+#     - Tipi ClusterIP (default)
+#     - 80 portundan gelen trafiği Pod içindeki
+#       containerPort 80'e yönlendirir.
+#     - app: web label'ı üzerinden Pod'ları seçer.
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service               # Service adı
+spec:
+  type: ClusterIP                 # Internal service türü
+  selector:
+    app: web                      # web label'lı Pod'ları hedef alır
+  ports:
+    - port: 80                    # Servisin dışarı açtığı port (Cluster içi erişim)
+      targetPort: 80              # Pod içindeki containerPort

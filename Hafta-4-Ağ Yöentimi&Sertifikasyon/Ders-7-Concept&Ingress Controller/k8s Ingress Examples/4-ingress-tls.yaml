@@ -1,0 +1,41 @@
+#TLS INGRESS
+
+#Ingress üzerinden HTTPS terminasyonu sağlamak için TLS sertifikası kullanılır
+#Bu sertifika Kubernetes Secret içerisinde tutulur
+#Bu işleyiş için tanımlanan ingress çeşididir.
+
+
+apiVersion: networking.k8s.io/v1 # Ingress API versiyonu
+kind: Ingress #kaynak tipi
+
+metadata:
+  name: tls-ingress #ingress adı
+  namespace: demo #çalışacağı namespace
+
+spec:
+  ingressClassName: nginx #Ingress Controller
+  tls: 
+    - hosts:
+        - secure.huaweikubernetes.com #HTTPS ile erişelecek domain ataması
+      secretName: tls-secret #TLS sertifikasının bulunduğu secret'ın tanıtımı
+
+  
+  rules: 
+    - host: secure.huaweikubernetes.com #HTTPS domainin tanıtımı ve kuralları
+      http:
+        paths:
+          - path: /  #Tüm path'ler
+            pathType: Prefix # Prefix eşleşmesi
+            backend:
+              service: 
+                name: secure-app #yönlendirileceği service
+                port:
+                  number: 80 # service'in dinleyeceği port
+
+
+#Bu ingress
+
+#--->secure.huaweikubernetes.com için HTTPS (TLS) terminasyonu yapar
+#--->TLS sertifikası tls-secret isimli Secret içinde tutulmaktadır
+#--->Ingress bu sertifikayı kullanarak dış dünyaya HTTPS sunar ve trafiği secure-app
+    # servisine yönlendirir.

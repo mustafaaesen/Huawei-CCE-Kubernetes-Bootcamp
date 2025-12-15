@@ -1,0 +1,37 @@
+#BASIC INGRESS
+
+#Dışarıdan gelen istekleri tek bir domain üzerinden tek bir servise yönlendiren en temel
+#ingress türüdür.
+
+apiVersion: networking.k8s.io/v1 #Ingress API versiyonu
+kind: Ingress # YAML türü
+
+metadata:
+  name: basic-ingress #ingress adı
+  namespace: demo #tanımlandığı namespace
+  annotations: #NGINX özel ayarları için annotation
+    nginx.ingress.kubernetes.io/rewrite-target: "/" # gerekli halde tüm path / olarak ayarlar
+
+
+spec:
+  ingressClassName: nginx #Kullanılan Ingress Controller Sınıfı(Huawei için genellikle nginx)
+
+  rules: #Domain ve routing kurallarının tanımlandığı yer
+    - host: huaweikubernetes.com #ingress'in çalışacağı domain
+      http: #HTTP kuralları
+        paths: 
+          - path: / # "/" altindaki tüm pathler bu kurala uyar
+            pathType: Prefix # Path Prefix mantığında eşleşir
+            backend: #Trafiğin yönlendirileceği servis
+              service:
+                name: web-service #Cluster'daki service adı
+                port:
+                  number: 80 #Service'in dinleyeceği port
+
+
+#Bu Ingress Kısaca
+
+#--->huaweikubernetes.com alan adından gelen istekleri path ne olursa olsun web-service adındaki servise
+#yönlendir.
+
+#--->İsteğe göre rewrite-target ile path'i / olarak sadeleştirip backend'e iletir

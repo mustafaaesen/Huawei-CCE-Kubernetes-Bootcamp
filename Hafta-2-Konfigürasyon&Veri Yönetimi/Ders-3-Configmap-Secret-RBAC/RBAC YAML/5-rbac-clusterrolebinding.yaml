@@ -1,0 +1,18 @@
+#ClusterRole'de verilen izinleri ServiceAccount'ta tüm cluster düzeyinde atar
+#Clsuter role ile ServiceAccount bağlantısıdır
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+
+metadata:
+  name: cluster-read-binding
+
+subjects:
+  - kind: ServiceAccount #yetki alacak kimlik
+    name: app-sa
+    namespace: default
+  
+roleRef:
+  kind: ClusterRole
+  name: cluster-reader
+  apiGroup: rbac.authorization.k8s.io

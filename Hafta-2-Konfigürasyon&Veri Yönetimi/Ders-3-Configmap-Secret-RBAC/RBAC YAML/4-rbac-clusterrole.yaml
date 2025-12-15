@@ -1,0 +1,13 @@
+#Tüm namespace'ler için geçerli olan global izin tanımıdır.
+# node, perstentvolume gibi cluster-wide kaynakları yönetebilir
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+
+metadata:
+  name: cluster-wide
+
+rules: 
+  - apiGroups: [""]
+    resources: ["pods","nodes"] #izin verilecek kaynaklar
+    verbs: ["get","list"] #izin verlien işlemler

@@ -1,0 +1,38 @@
+#B) CANARY INGRESS
+
+#6-a)ingress-stable.yaml da tanımlı olan eski statik ingreess'in yeni yönlendirmeli
+     #canary ingress'idir.
+
+apiVersion: networking.k8s.io/v1 # Ingress API versiyonu
+kind: Ingress # kaynak tipi
+
+metadata:
+  name: web-canary-ingress #Ingress adı
+  namespace: demo #çalışacağı namespace
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    #canary modunu aktif etme
+    nginx.ingress.kubernetes.io/canary-weight: "20"
+    #Trafiğin yönlendirilecek yüzdesini belirleme
+
+
+spec:
+  ingressClassName: nginx #Ingress Controller
+  rules:
+    - host: canary.huaweikubernetes.com #Aynı domain etkir
+      http: #HTTP kuralları
+        paths:  
+          - path: / # Tüm path'ler
+            pathType: Prefix #Prefix eşleşmesi
+            backend:
+              service:
+                name: web-service-v2 # yönlendireceği service
+                port:
+                  number: 80 #service'in dinleyeceği port
+
+#Bu Ingress 
+
+#---> aynı host için geçerli olup annotations'ları sayesinde gelen trafiğin %20'sini 
+    # yeni sürüm olan 'web-service-v2'ye yönlendirir
+  
+#---> Bu sayede prod ortamında kademeli geçiş/test yapılabilir.

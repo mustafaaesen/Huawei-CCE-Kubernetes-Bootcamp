@@ -1,0 +1,41 @@
+apiVersion: apps/v1 #deployment için kullanılan API sürümü
+
+kind: Deployment #YAML nesne türü (Deployment çok podlu ve sürekli çalışan türdür)
+
+metadata: #Oluşturulan deploymentın bilgileri
+  name: nginx-deployment #adı dashboard ve kubectl komutlarında bu şekilde görünür olur
+
+spec: #deploymentın çalışma kuralları (kaç pod, nasıl davranacak,nasıl yönetilecek gibi kurallar)
+  replicas: 2   #her poddan 2 kopya(replica) çalıştır
+
+  selector: #deploymentın yöneteceği podlarını seçim filtresi
+    matchLabels: #etikete göre eşleşme yapılır
+      app: nginx #app:nginx etiketi olan podlar bu deploymenta aittir
+
+  template: #deploymentın oluşturacağı podların şablonu
+    metadata: #pod etiket bilgileri
+      labels: 
+        app: nginx #podlara selector ile eşleşebilmesi için app:nginx etiketi ata
+
+    spec: #Podun içeriğinin tanımlandığı bölüm
+      containers: #podun container listesi
+        - name: nginx #container adı
+          image: nginx #çekileceği Docker imajı Docker Hub’dan iner
+          ports:
+          - containerPort: 80 #podun içeride dinleyeceği port (nginx default olarak 80)
+
+          resources: #Kaynak limilteri deployment için kullanılabilir olarak tahsis edilen
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+
+
+#KISACA YAML GÖREVİ
+
+#--- Nginx uygulamasını 2 replica olarak sürekli çalıştırır
+#--- Podlara app:nginx etiketi atar
+#--- Pod çökerse deployment otomatik olarak yeniden başlatır
+#--- Uygulama güncellemeleri rolling update ile yapılır

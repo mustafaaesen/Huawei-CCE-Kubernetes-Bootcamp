@@ -1,0 +1,18 @@
+#namespace seviyesinde izin tanımıdır
+
+#belirli bir namespace içeirsinde hangi kaynaklara(pods,screts,configmaps) hangi işlemlerin
+#(gets,list,create vb) yapılabileceğini tanımlandığı aşamadır.
+
+#sadece belirtilen namespace'te geçerlidir
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: default
+rules:
+  - apiGroups: [""]          # Core API grubu (pods, services)
+    resources: ["pods"]      # Hangi kaynağa izin veriliyor
+    verbs: ["get", "list"]   # İzin verilen işlemler
+
+#rbac role tanımı 

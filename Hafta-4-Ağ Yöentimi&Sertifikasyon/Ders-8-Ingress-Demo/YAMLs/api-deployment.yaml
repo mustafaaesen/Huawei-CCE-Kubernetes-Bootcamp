@@ -1,0 +1,26 @@
+#   Bu Deployment:
+#     - 1 replica olarak çalışır
+#     - DockerHub üzerinden image pull eder
+#       (SNAT açık olduğu için sorunsuz çalışacak)
+#     - 80 portundan cevap verir
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: kennethreitz/httpbin
+          ports:
+            - containerPort: 80
