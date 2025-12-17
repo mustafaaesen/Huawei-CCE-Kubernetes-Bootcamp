@@ -1,10 +1,10 @@
-# 🚀 Huawei Cloud CCE — Kubernetes Cluster Connection Guide
+#  Huawei Cloud CCE — Kubernetes Cluster Connection Guide
 
 Bu doküman Huawei Cloud üzerinde **CCE (Cloud Container Engine)** kullanarak Kubernetes cluster oluşturma ve yerel makine üzerinden `kubectl` ile bağlantı kurma sürecini anlatır.
 
 ---
 
-## 📌 1. Kubernetes Cluster Oluşturma (CCE)
+##  1. Kubernetes Cluster Oluşturma (CCE)
 
 Huawei Cloud panelinden:
 
@@ -15,7 +15,7 @@ Huawei Cloud panelinden:
 
 ---
 
-## 📌 2. Node Pool Oluşturma (AZ1 ve AZ2)
+## 2. Node Pool Oluşturma (AZ1 ve AZ2)
 
 Cluster oluşturulduktan sonra:
 
@@ -28,7 +28,7 @@ Cluster oluşturulduktan sonra:
 
 ---
 
-## 📌 3. EIP Bağlama ve Kubeconfig İndirme
+##  3. EIP Bağlama ve Kubeconfig İndirme
 
 Kubectl’in cluster’a internet üzerinden bağlanabilmesi için:
 
@@ -41,7 +41,7 @@ Bu dosya yerel kubectl bağlantısı için gereklidir.
 
 ---
 
-## 📌 4. Ubuntu Üzerinde Kubectl Kurulumu
+##  4. Ubuntu Üzerinde Kubectl Kurulumu
 
 ### ✔ Kubectl kur
 
@@ -51,7 +51,7 @@ sudo snap install kubectl --classic
 
 ---
 
-## 📌 5. Kubeconfig Dosyasını Yerleştirme
+##  5. Kubeconfig Dosyasını Yerleştirme
 
 İndirilen dosyayı `.kube/config` konumuna taşı:
 
@@ -64,7 +64,7 @@ mv ~/İndirilenler/test-cluster-kubeconfig.yaml ~/.kube/config
 
 ---
 
-## 📌 6. Kubectl Context Kontrolü
+##  6. Kubectl Context Kontrolü
 
 Context listesini görüntüle:
 
@@ -89,7 +89,7 @@ kubectl config use-context external
 
 ---
 
-## 📌 7. Cluster Bağlantısını Test Etme
+##  7. Cluster Bağlantısını Test Etme
 
 ### Kubernetes API Server bilgisi:
 
@@ -123,7 +123,7 @@ Node’lar **Ready** durumunda ise bağlantı başarılıdır.
 
 ---
 
-## 🎉 Artık Hazırsınız
+
 
 Artık cluster üzerinde Kubernetes kaynakları oluşturabilirsiniz:
 
