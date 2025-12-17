@@ -163,9 +163,6 @@ Service:
 
 ---
 
-# END OF WEEK-2 / VIDEO-1 NOTES
-````markdown
 
----
 
 
