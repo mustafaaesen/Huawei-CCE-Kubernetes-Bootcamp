@@ -171,6 +171,4 @@ Bu temel akış Kubernetes’e geçişte yeterlidir.
 
 ---
 
-## 8. Not
-Bu dosya, Huawei CCE Kubernetes eğitiminde yapılan Docker pratiklerinin sade bir özetidir.  
-Komutların çıktıları eğitim sırasında terminalde görülmüştür, ancak Docker tarafından otomatik bir çıktı dosyası tutulmadığı için burada yer almamaktadır.
+
