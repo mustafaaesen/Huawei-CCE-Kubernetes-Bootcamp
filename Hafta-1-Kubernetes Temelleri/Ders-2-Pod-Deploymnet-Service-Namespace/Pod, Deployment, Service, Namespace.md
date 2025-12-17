@@ -1,4 +1,4 @@
-# 📘 Hafta 1 – Ders 2  
+#  Hafta 1 – Ders 2  
 ## Kubernetes Temelleri  
 ### Pod, Deployment, Service, Namespace ve Genel Yapı
 
@@ -6,9 +6,9 @@ Bu derste Kubernetes’te pod, workload, service ve YAML yapılarının temeller
 
 ---
 
-# 🧱 Pod, YAML ve Temel Kavramlar
+#  Pod, YAML ve Temel Kavramlar
 
-## 🔹 Pod Nedir?
+##  Pod Nedir?
 Pod, Kubernetes’in **en küçük deploy edilebilir birimidir**.  
 Bir veya birden fazla container’ı aynı ağ & depolama alanını paylaşacak şekilde bir arada tutar.
 
@@ -17,13 +17,13 @@ Bir veya birden fazla container’ı aynı ağ & depolama alanını paylaşacak 
 
 ---
 
-## 🔹 YAML Nedir?
+##  YAML Nedir?
 YAML, Kubernetes nesnelerini tanımlamak için kullanılan **insan tarafından okunabilir** bir konfigurasyon dosyası formatıdır.  
 Tüm Kubernetes kaynakları YAML üzerinden tarif edilir.
 
 ---
 
-## 🔹 Pod Yaşam Döngüsü (Lifecycle)
+## Pod Yaşam Döngüsü (Lifecycle)
 Bir pod oluşturulduğunda aşağıdaki aşamalardan geçer:
 
 1. **Pending** – Pod planlandı ancak henüz çalışmıyor.  
@@ -41,52 +41,52 @@ belirlenebilir.
 
 ---
 
-## 🔹 CI/CD Pipeline
+##  CI/CD Pipeline
 CI/CD, uygulamaların **otomatik build, test ve deploy** sürecini tanımlar.  
 Kubernetes tarafında çoğunlukla YAML dosyalarının otomatik olarak cluster’a uygulanmasıyla sonuçlanır.
 
 ---
 
-# 🧳 Workload Türleri
+#  Workload Türleri
 
-## 🔸 Deployment
+##  Deployment
 Stateless uygulamalar için kullanılır.  
 Pod ölürse **ReplicaSet** otomatik olarak yeniden ayağa kaldırır.
 
-## 🔸 StatefulSet
+##  StatefulSet
 Veri tutarlılığı gereken durumlarda (ör. veritabanları).  
 Pod isimleri ve storage **kalıcıdır**: `pod-0`, `pod-1` gibi.
 
-## 🔸 Job
+##  Job
 Tek seferlik bir görevi tamamlayana kadar çalışır.  
 Görev bitince pod sonlanır.
 
-## 🔸 CronJob
+##  CronJob
 Job’un **zamanlanmış hali**dir.  
 Belirlenen cron pattern’e göre çalışır:  
 `0 */1 * * *` → Her saat başı.
 
 ---
 
-# 🌐 Service Türleri
+# Service Türleri
 
 Service, pod’lara **kalıcı erişim noktası** sağlar.  
 Pod IP’leri değişse bile service IP hep sabit kalır.
 
-## 🔸 ClusterIP
+##  ClusterIP
 Varsayılan servistir.  
 Sadece Kubernetes cluster içinden erişilir.
 
-## 🔸 NodePort
+##  NodePort
 Her node’un 30000–32767 arası portlarından dışarıya açılır.  
 `<NodeIP>:NodePort` şeklinde erişilir.
 
-## 🔸 LoadBalancer
+##  LoadBalancer
 Cloud ortamlarında dış dünyaya **public IP** ile erişim sağlar.
 
 ---
 
-# 📄 YAML Dosyasının Yapısı
+#  YAML Dosyasının Yapısı
 
 Kubernetes YAML dosyaları üç ana bölüm içerir:
 
@@ -104,19 +104,19 @@ spec:
           image: nginx
 ```
 
-### 🔹 metadata
+###  metadata
 Kaynağın adı, etiketleri, açıklamaları.
 
-### 🔹 kind
+###  kind
 Nesnenin türü:  
 `Pod`, `Deployment`, `Service`, `Job`, `CronJob` vb.
 
-### 🔹 spec
+###  spec
 Kaynağın davranışı, container ayarları, portlar, replika sayısı vb.
 
 ---
 
-# 🧪 Dersin 2. Saati – Uygulamalı Çalışma  
+#  Dersin 2. Saati – Uygulamalı Çalışma  
 ## Panel Üzerinden Workload Oluşturma
 
 1. **Workload seçilir**
@@ -152,7 +152,7 @@ Kaynağın davranışı, container ayarları, portlar, replika sayısı vb.
 
 ---
 
-# 📌 Senaryo 1: 3 Pod’luk Deployment (80 → 80 Port)
+#  Senaryo 1: 3 Pod’luk Deployment (80 → 80 Port)
 
 Hedef:
 - 3 adet pod ayağa kalkacak  
@@ -164,7 +164,7 @@ Deployment, podlar silinse veya bozulsa bile **ReplicaSet** sayesinde hemen yeni
 
 ---
 
-# 📌 Senaryo 2: Frontend–Backend İletişimi
+#  Senaryo 2: Frontend–Backend İletişimi
 
 Elimizde iki ayrı deployment olsun:
 
@@ -179,17 +179,17 @@ frontend → service → backend
         backend pod IP
 ```
 
-### ❗ Neden Service?
+###  Neden Service?
 - Pod IP’leri **kalıcı değildir**  
 - Pod ölürse yeni pod **yeni IP** alır  
 - Frontend → backend pod IP’si üzerinden erişim yapıyorsa bağlantı kopar  
 
-👉 Service, backend için **sabit bir sanal IP (ClusterIP)** sağlar.  
+Service, backend için **sabit bir sanal IP (ClusterIP)** sağlar.  
 Bu sayede pod IP değişse bile iletişim hiç kopmaz.
 
 ---
 
-# 🛠 Örnek Çalışmalar (Ders İçinde Yapılan YAML’lar)
+# Örnek Çalışmalar (Ders İçinde Yapılan YAML’lar)
 
 Aşağıdaki YAML türleri derste yazılmış ve panele uygulanmıştır:
 
@@ -242,7 +242,7 @@ spec:
 
 ---
 
-# 🎯 Özet
+#  Özet
 
 Bu derste aşağıdaki beceriler kazanılmıştır:
 
