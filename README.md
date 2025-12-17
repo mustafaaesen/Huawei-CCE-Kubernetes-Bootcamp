@@ -6,7 +6,7 @@ Amaç; Kubernetes temelinden ileri konulara kadar yapılan tüm çalışmaların
 
 ---
 
-## 📁 Klasör Yapısı
+##  Klasör Yapısı
 
 ```
 Huawei-CCE-Kubernetes-Bootcamp/
@@ -95,7 +95,7 @@ Huawei-CCE-Kubernetes-Bootcamp/
 
 ---
 
-## 🎯 Repo İçeriği
+##  Repo İçeriği
 
 * Kubernetes temel objeleri (Pod, Deployment, Service, Namespace)
 * ConfigMap, Secret ve RBAC senaryoları
@@ -112,4 +112,4 @@ Huawei-CCE-Kubernetes-Bootcamp/
 
 ---
 
-> 📌 Not: Bu repo, eğitim süresince birebir yapılan uygulamalara ve gerçek konfigürasyonlara dayanmaktadır.
+> Not: Bu repo, eğitim süresince birebir yapılan uygulamalara ve gerçek konfigürasyonlara dayanmaktadır.
